@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:restotag_customer_app/view/base/resizable_scrollview.dart';
+import 'package:restotag_customer_app/view/screens/auth/otp_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -15,32 +17,50 @@ class LoginScreen extends StatelessWidget {
         padding: EdgeInsets.all(36),
         children: [
           Spacer(),
-          Text(
-            'Sign In',
-            style: Theme.of(context).textTheme.headlineMedium,
-            textAlign: TextAlign.center,
-          ),
-          Text('Verify your phone number', textAlign: TextAlign.center),
-          Spacer(),
-          TextField(
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              labelText: 'Mobile Number',
-              icon: Icon(Icons.phone_outlined),
+          Hero(
+            tag: 'title',
+            child: Text(
+              'Sign In',
+              style: Theme.of(context).textTheme.headlineMedium,
+              textAlign: TextAlign.center,
             ),
-            keyboardType: TextInputType.phone,
+          ),
+          Hero(
+            tag: 'subtitle',
+            child: Text(
+              'Verify your phone number',
+              textAlign: TextAlign.center,
+            ),
           ),
           Spacer(),
-          FilledButton.icon(
-            onPressed: () {},
-            label: Text('SEND OTP'),
-            icon: Icon(Icons.arrow_forward),
-            style: ButtonStyle(
-              padding: WidgetStatePropertyAll(EdgeInsets.all(18))
+          Hero(
+            tag: 'number',
+            child: TextField(
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                labelText: 'Mobile Number',
+                icon: Icon(Icons.phone_outlined),
+              ),
+              keyboardType: TextInputType.phone,
+            ),
+          ),
+          Spacer(),
+          Hero(
+            tag: 'main_btn',
+            child: FilledButton.icon(
+              onPressed: () => Get.off(const OtpScreen()),
+              label: Text('SEND OTP'),
+              icon: Icon(Icons.arrow_forward),
+              style: ButtonStyle(
+                padding: WidgetStatePropertyAll(EdgeInsets.all(18)),
+              ),
             ),
           ),
           SizedBox(height: 16),
-          TextButton(onPressed: () {}, child: Text('CREATE ACCOUNT')),
+          Hero(
+            tag: 'scnd_btn',
+            child: TextButton(onPressed: () {}, child: Text('CREATE ACCOUNT')),
+          ),
           Spacer(),
         ],
       ),

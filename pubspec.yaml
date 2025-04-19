@@ -19,6 +19,9 @@ dependencies:
   # Helper
   intl: ^0.20.2
 
+  # UI
+  flutter_otp_text_field: ^1.5.1+1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
