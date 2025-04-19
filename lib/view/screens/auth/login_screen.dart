@@ -7,6 +7,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: ResizableScrollView(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -34,7 +35,11 @@ class LoginScreen extends StatelessWidget {
             onPressed: () {},
             label: Text('SEND OTP'),
             icon: Icon(Icons.arrow_forward),
+            style: ButtonStyle(
+              padding: WidgetStatePropertyAll(EdgeInsets.all(18))
+            ),
           ),
+          SizedBox(height: 16),
           TextButton(onPressed: () {}, child: Text('CREATE ACCOUNT')),
           Spacer(),
         ],
