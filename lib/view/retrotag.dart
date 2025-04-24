@@ -12,7 +12,10 @@ class RetroTagApp extends StatelessWidget {
       title: 'RetroTag',
       debugShowCheckedModeBanner: false,
       defaultTransition: Transition.cupertino,
-      theme: ThemeData.light(useMaterial3: true),
+      theme: ThemeData.from(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
+        useMaterial3: true,
+      ),
       home: const LoginScreen(),
       scrollBehavior: const CupertinoScrollBehavior().copyWith(
         physics: const BouncingScrollPhysics(

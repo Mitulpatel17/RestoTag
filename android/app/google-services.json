@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "375989348454",
+    "project_id": "restotag",
+    "storage_bucket": "restotag.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:375989348454:android:e5c6327578028c055c25a7",
+        "android_client_info": {
+          "package_name": "com.example.resto_tag"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCf8e2cIJchz5NtzH8EMtkUCKin6t8XvLE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:375989348454:android:cbaadcd7f99730095c25a7",
+        "android_client_info": {
+          "package_name": "com.restotag.customer.restotag_customer_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCf8e2cIJchz5NtzH8EMtkUCKin6t8XvLE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

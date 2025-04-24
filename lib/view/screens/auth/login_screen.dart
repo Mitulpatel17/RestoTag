@@ -17,50 +17,35 @@ class LoginScreen extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           children: [
             Spacer(),
-            Hero(
-              tag: 'title',
-              child: Text(
-                'Sign In',
-                style: Theme.of(context).textTheme.headlineMedium,
-                textAlign: TextAlign.center,
-              ),
+            Text(
+              'Sign In',
+              style: Theme.of(context).textTheme.headlineMedium,
+              textAlign: TextAlign.center,
             ),
-            Hero(
-              tag: 'subtitle',
-              child: Text(
-                'Verify your phone number',
-                textAlign: TextAlign.center,
-              ),
+            Text(
+              'Verify your phone number',
+              textAlign: TextAlign.center,
             ),
             Spacer(),
-            Hero(
-              tag: 'number',
-              child: TextField(
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  labelText: 'Mobile Number',
-                  icon: Icon(Icons.phone_outlined),
-                ),
-                keyboardType: TextInputType.phone,
+            TextField(
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                labelText: 'Mobile Number',
+                icon: Icon(Icons.phone_outlined),
               ),
+              keyboardType: TextInputType.phone,
             ),
             Spacer(),
-            Hero(
-              tag: 'main_btn',
-              child: FilledButton.icon(
-                onPressed: () => Get.off(const OtpScreen()),
-                label: Text('SEND OTP'),
-                icon: Icon(Icons.arrow_forward),
-                style: ButtonStyle(
-                  padding: WidgetStatePropertyAll(EdgeInsets.all(18)),
-                ),
+            FilledButton.icon(
+              onPressed: () => Get.off(const OtpScreen()),
+              label: Text('SEND OTP'),
+              icon: Icon(Icons.arrow_forward),
+              style: ButtonStyle(
+                padding: WidgetStatePropertyAll(EdgeInsets.all(18)),
               ),
             ),
             SizedBox(height: 16),
-            Hero(
-              tag: 'scnd_btn',
-              child: TextButton(onPressed: () {}, child: Text('CREATE ACCOUNT')),
-            ),
+            TextButton(onPressed: () {}, child: Text('CREATE ACCOUNT')),
             Spacer(),
           ],
         ),
