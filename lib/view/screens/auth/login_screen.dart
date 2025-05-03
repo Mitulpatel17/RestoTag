@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:restotag_customer_app/view/screens/auth/otp_screen.dart';
+import 'package:restotag_customer_app/view/screens/auth/signup_screen.dart';
+
+import '../../../utils/AppColors.dart';
+import '../dashboard/dashboard_Screen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});

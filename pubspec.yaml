@@ -15,6 +15,7 @@ dependencies:
   # State Management
   get: ^4.7.2
   shared_preferences: ^2.5.3
+  qr_code_scanner: ^1.0.1
 
   # Helper
   intl: ^0.20.2
@@ -37,7 +38,6 @@ flutter:
   assets:
     - assets/
     - assets/branding/
-    - assets/icons/
   # fonts:
   #   - family: Schyler
   #     fonts:
