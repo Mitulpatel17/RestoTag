@@ -3,6 +3,9 @@ import 'package:restotag_customer_app/view/screens/dashboard/orderSummary_Screen
 import 'package:restotag_customer_app/view/screens/dashboard/scanBarcode_Screen.dart';
 import 'package:restotag_customer_app/view/screens/dashboard/setting_Screen.dart';
 
+import '../../../utils/customUI/FoodCategorySwitch.dart';
+import 'FavouriteScreen.dart';
+
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -17,7 +20,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   final List<Widget> _pages = [
     Placeholder(), // Home will be replaced manually
-    FavoriteScreen(),
+    Favouritescreen(),
     QRScannerScreen(),
     OrderSummaryApp(),
     SettingsApp(),
@@ -96,20 +99,15 @@ class HomeScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Top bar
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                Icon(Icons.person_outline, color: Colors.grey),
-                Text(
-                  "Choose Preference",
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.orange,
-                    fontWeight: FontWeight.bold,
-                  ),
+            Center(
+              child: Text(
+                "Choose Preference",
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.orange,
+                  fontWeight: FontWeight.bold,
                 ),
-                Icon(Icons.close, color: Colors.grey),
-              ],
+              ),
             ),
             const SizedBox(height: 50),
             Center(
@@ -174,57 +172,108 @@ class OrangeButton extends StatelessWidget {
 }
 
 // =================== Restaurant List Screen (After Book Restaurant click) ===================
-class RestaurantListScreen extends StatelessWidget {
+class RestaurantListScreen extends StatefulWidget {
+  @override
+  _RestaurantListScreenState createState() => _RestaurantListScreenState();
+}
+
+class _RestaurantListScreenState extends State<RestaurantListScreen> {
+  String selectedCategory = 'All';
+
+  final List<Map<String, String>> allRestaurants = [
+    {
+      'name': 'ABC Restaurant',
+      'area': 'XYZ, Area',
+      'type': 'Veg',
+      'image': 'https://images.unsplash.com/photo-1555992336-03a23c7b20e3',
+    },
+    {
+      'name': 'Non-Veg Palace',
+      'area': '123, Area',
+      'type': 'Non-Veg',
+      'image': 'https://images.unsplash.com/photo-1606756791461-d1003b37f245',
+    },
+    {
+      'name': 'Mixed Delight',
+      'area': '456, Area',
+      'type': 'All',
+      'image': 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c',
+    },
+  ];
+
   @override
   Widget build(BuildContext context) {
+    final filteredList = selectedCategory == 'All'
+        ? allRestaurants
+        : allRestaurants
+        .where((restaurant) => restaurant['type'] == selectedCategory)
+        .toList();
+
     return SafeArea(
       child: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          // Top header
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              Icon(Icons.person_outline, color: Colors.grey),
-              Text(
-                "Restaurants",
+          Center(
+            child: Text(
+              "Restaurants",
+              style: TextStyle(
+                fontSize: 20,
+                color: Colors.orange,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          const SizedBox(height: 20),
+
+          Center(
+            child: FoodCategorySwitch(
+              onCategoryChanged: (value) {
+                setState(() {
+                  selectedCategory = value;
+                });
+              },
+            ),
+          ),
+          const SizedBox(height: 20),
+
+          if (filteredList.isEmpty)
+            Center(
+              child: Text(
+                'No $selectedCategory restaurants found.',
                 style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.orange,
-                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                  color: Colors.grey,
+                  fontStyle: FontStyle.italic,
                 ),
               ),
-              Icon(Icons.search, color: Colors.grey),
-            ],
-          ),
-          const SizedBox(height: 20),
-          // Filter buttons
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextButton(onPressed: () {}, child: const Text("All")),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-                decoration: BoxDecoration(
-                  color: Colors.orange,
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                child: const Text("Veg", style: TextStyle(color: Colors.white)),
-              ),
-              TextButton(onPressed: () {}, child: const Text("Non-Veg")),
-            ],
-          ),
-          const SizedBox(height: 20),
-          // Restaurant Cards
-          RestaurantCard(),
-          RestaurantCard(),
+            )
+          else
+            ...filteredList.map((restaurant) {
+              return RestaurantCard(
+                name: restaurant['name']!,
+                area: restaurant['area']!,
+                imageUrl: restaurant['image']!,
+              );
+            }).toList(),
         ],
       ),
     );
   }
 }
 
+
+
 class RestaurantCard extends StatelessWidget {
+  final String name;
+  final String area;
+  final String imageUrl;
+
+  const RestaurantCard({
+    required this.name,
+    required this.area,
+    required this.imageUrl,
+  });
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -235,15 +284,15 @@ class RestaurantCard extends StatelessWidget {
           ClipRRect(
             borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
             child: Image.network(
-              "https://images.unsplash.com/photo-1555992336-03a23c7b20e3",
+              imageUrl,
               height: 180,
               width: double.infinity,
               fit: BoxFit.cover,
             ),
           ),
           ListTile(
-            title: const Text("ABC Restaurant"),
-            subtitle: const Text("XYZ, Area"),
+            title: Text(name),
+            subtitle: Text(area),
             trailing: IconButton(
               icon: const Icon(Icons.favorite_border, color: Colors.orange),
               onPressed: () {},
@@ -254,6 +303,7 @@ class RestaurantCard extends StatelessWidget {
     );
   }
 }
+
 
 // =================== Other Placeholder Screens ===================
 class FavoriteScreen extends StatelessWidget {

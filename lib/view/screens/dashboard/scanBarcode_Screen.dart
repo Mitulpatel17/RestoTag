@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
+
+import '../../../utils/AppColors.dart';
+// import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 
 class QRScannerScreen extends StatefulWidget {
@@ -11,16 +13,16 @@ class QRScannerScreen extends StatefulWidget {
 
 class _QRScannerScreenState extends State<QRScannerScreen> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-  QRViewController? controller;
+  // QRViewController? controller;
   String scannedData = '';
 
   @override
   void reassemble() {
     super.reassemble();
-    if (controller != null) {
-      controller!.pauseCamera();
-      controller!.resumeCamera();
-    }
+    // if (controller != null) {
+    //   controller!.pauseCamera();
+    //   controller!.resumeCamera();
+    // }
   }
 
   @override
@@ -33,55 +35,46 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
             // Top bar with title and close button
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    "Scan QR Code for Dine-In",
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.blueGrey,
-                      fontWeight: FontWeight.w500,
-                    ),
+              child: Center(
+                child: const Text(
+                  "Scan QR Code for Dine-In",
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: AppColors.primary,
+                    fontWeight: FontWeight.w500,
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Icon(Icons.close, color: Colors.blueGrey),
-                  ),
-                ],
+                ),
               ),
             ),
 
             const SizedBox(height: 20),
 
             // QR Scanner View
-            Expanded(
-              child: Center(
-                child: Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 20),
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade400,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
-                    child: QRView(
-                      key: qrKey,
-                      onQRViewCreated: _onQRViewCreated,
-                      overlay: QrScannerOverlayShape(
-                        borderColor: Colors.orange,
-                        borderRadius: 10,
-                        borderLength: 30,
-                        borderWidth: 10,
-                        cutOutSize: 250,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            // Expanded(
+            //   child: Center(
+            //     child: Container(
+            //       margin: const EdgeInsets.symmetric(horizontal: 20),
+            //       decoration: BoxDecoration(
+            //         color: Colors.grey.shade400,
+            //         borderRadius: BorderRadius.circular(12),
+            //       ),
+            //       child: ClipRRect(
+            //         borderRadius: BorderRadius.circular(12),
+            //         child: QRView(
+            //           key: qrKey,
+            //           onQRViewCreated: _onQRViewCreated,
+            //           overlay: QrScannerOverlayShape(
+            //             borderColor: Colors.orange,
+            //             borderRadius: 10,
+            //             borderLength: 30,
+            //             borderWidth: 10,
+            //             cutOutSize: 250,
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
 
             // Scanned Data display (optional)
             if (scannedData.isNotEmpty)
@@ -100,7 +93,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    controller?.resumeCamera();
+                    // controller?.resumeCamera();
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.orange,
@@ -126,21 +119,21 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
     );
   }
 
-  void _onQRViewCreated(QRViewController controller) {
-    setState(() {
-      this.controller = controller;
-    });
-    controller.scannedDataStream.listen((scanData) {
-      setState(() {
-        scannedData = scanData.code ?? '';
-      });
-      controller.pauseCamera(); // Pause after first scan (optional)
-    });
-  }
+  // void _onQRViewCreated(QRViewController controller) {
+  //   setState(() {
+  //     this.controller = controller;
+  //   });
+  //   controller.scannedDataStream.listen((scanData) {
+  //     setState(() {
+  //       scannedData = scanData.code ?? '';
+  //     });
+  //     controller.pauseCamera(); // Pause after first scan (optional)
+  //   });
+  // }
 
   @override
   void dispose() {
-    controller?.dispose();
+    // controller?.dispose();
     super.dispose();
   }
 }

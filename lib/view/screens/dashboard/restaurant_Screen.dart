@@ -24,7 +24,7 @@ class _restaurantScreenState extends State<restaurantScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: const [
-                  Icon(Icons.person_outline, color: Colors.grey),
+                  // Icon(Icons.person_outline, color: Colors.grey),
                   Text(
                     "Restaurants",
                     style: TextStyle(
@@ -33,7 +33,7 @@ class _restaurantScreenState extends State<restaurantScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Icon(Icons.search, color: Colors.grey),
+                  // Icon(Icons.search, color: Colors.grey),
                 ],
               ),
               const SizedBox(height: 20),

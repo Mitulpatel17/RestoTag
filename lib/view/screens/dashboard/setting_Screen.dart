@@ -77,12 +77,12 @@ class SettingsPage extends StatelessWidget {
               color: orangeColor,
               fontSize: 18,
               fontWeight: FontWeight.w500,),),),
-            Positioned(
-              right: 0, child: IconButton(
-              icon: const Icon(
-                Icons.close, color: Color(0xFF9CA3AF), size: 20,),
-              onPressed: () { Get.back();},
-              splashRadius: 20,),),
+            // Positioned(
+            //   right: 0, child: IconButton(
+            //   icon: const Icon(
+            //     Icons.close, color: Color(0xFF9CA3AF), size: 20,),
+            //   onPressed: () { Get.back();},
+            //   splashRadius: 20,),),
           ],),
         const SizedBox(height: 32),
         buildSettingButton(

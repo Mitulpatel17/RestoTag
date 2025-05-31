@@ -46,6 +46,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: AppColors.textfieldBg,
+
                     contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(6), // corner radius

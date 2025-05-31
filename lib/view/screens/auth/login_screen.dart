@@ -31,14 +31,26 @@ class LoginScreen extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             Spacer(),
-            TextField(
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                labelText: 'Mobile Number',
-                icon: Icon(Icons.phone_outlined),
-              ),
-              keyboardType: TextInputType.phone,
-            ),
+            Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color:  AppColors.background, // Light background
+                    borderRadius: BorderRadius.circular(12), // Rounded corners
+                  ),
+                  child: TextField(
+                    keyboardType: TextInputType.phone,
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      prefixIcon: Icon(Icons.phone_outlined, color: Colors.grey),
+                      labelText: 'Mobile Number',
+                      labelStyle: TextStyle(color: Colors.grey),
+                      contentPadding: const EdgeInsets.all(16),
+                    ),
+                  ),
+                ),
+            )
+            ,
             Spacer(),
             FilledButton.icon(
               onPressed: () => Get.off(const OtpScreen()),
@@ -46,10 +58,15 @@ class LoginScreen extends StatelessWidget {
               icon: Icon(Icons.arrow_forward),
               style: ButtonStyle(
                 padding: WidgetStatePropertyAll(EdgeInsets.all(18)),
-              ),
+                backgroundColor: MaterialStateProperty.all(AppColors.primary),
+              )
+              ,
+
+
             ),
             SizedBox(height: 16),
-            TextButton(onPressed: () {}, child: Text('CREATE ACCOUNT')),
+            TextButton(onPressed: () => Get.off(const SignupScreen()),
+             child: Text('CREATE ACCOUNT')),
             Spacer(),
           ],
         ),
