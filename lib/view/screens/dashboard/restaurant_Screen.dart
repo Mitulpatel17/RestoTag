@@ -26,7 +26,7 @@ class _restaurantScreenState extends State<restaurantScreen> {
                 children: const [
                   Icon(Icons.person_outline, color: Colors.grey),
                   Text(
-                    "Restaurants",
+                    "Restaurants ASASAS",
                     style: TextStyle(
                       fontSize: 20,
                       color: Colors.orange,
@@ -85,7 +85,6 @@ class _restaurantScreenState extends State<restaurantScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: _buildBottomNavigationBar(),
     );
   }
 

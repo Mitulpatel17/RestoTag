@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
+// import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 
 class QRScannerScreen extends StatefulWidget {
@@ -11,16 +11,16 @@ class QRScannerScreen extends StatefulWidget {
 
 class _QRScannerScreenState extends State<QRScannerScreen> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-  QRViewController? controller;
+  // QRViewController? controller;
   String scannedData = '';
 
   @override
   void reassemble() {
     super.reassemble();
-    if (controller != null) {
-      controller!.pauseCamera();
-      controller!.resumeCamera();
-    }
+    // if (controller != null) {
+    //   controller!.pauseCamera();
+    //   controller!.resumeCamera();
+    // }
   }
 
   @override
@@ -44,12 +44,6 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Icon(Icons.close, color: Colors.blueGrey),
-                  ),
                 ],
               ),
             ),
@@ -67,7 +61,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(12),
-                    child: QRView(
+                    child: /*QRView(
                       key: qrKey,
                       onQRViewCreated: _onQRViewCreated,
                       overlay: QrScannerOverlayShape(
@@ -77,7 +71,8 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                         borderWidth: 10,
                         cutOutSize: 250,
                       ),
-                    ),
+                    ),*/
+                    Text('data')
                   ),
                 ),
               ),
@@ -100,7 +95,6 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    controller?.resumeCamera();
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.orange,
@@ -126,21 +120,20 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
     );
   }
 
-  void _onQRViewCreated(QRViewController controller) {
-    setState(() {
-      this.controller = controller;
-    });
-    controller.scannedDataStream.listen((scanData) {
-      setState(() {
-        scannedData = scanData.code ?? '';
-      });
-      controller.pauseCamera(); // Pause after first scan (optional)
-    });
-  }
+  // void _onQRViewCreated(QRViewController controller) {
+  //   setState(() {
+  //     this.controller = controller;
+  //   });
+  //   controller.scannedDataStream.listen((scanData) {
+  //     setState(() {
+  //       scannedData = scanData.code ?? '';
+  //     });
+  //     controller.pauseCamera(); // Pause after first scan (optional)
+  //   });
+  // }
 
   @override
   void dispose() {
-    controller?.dispose();
     super.dispose();
   }
 }

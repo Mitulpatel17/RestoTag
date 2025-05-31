@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:restotag_customer_app/view/screens/dashboard/addcard_Screen.dart';
 
+import '../../controller/DashboardController.dart';
 import 'aboutus_screen.dart';
 
 
@@ -36,7 +37,9 @@ class SettingsPage extends StatelessWidget {
   }
 
   void onSavedCardTap(BuildContext context) {
-    Get.to(AddCardScreen());
+    final controller = Get.find<DashboardController>();
+    controller.replacePage(4, const AddCardScreen());
+    controller.updateSelectedIndex(4); // Navigate to it
   }
 
   void onAboutUsTap(BuildContext context) {
