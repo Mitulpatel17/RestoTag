@@ -1,26 +1,28 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:restotag_customer_app/view/screens/auth/login_screen.dart';
+import 'dart:async';
 
-class RetroTagApp extends StatelessWidget {
-  const RetroTagApp({super.key});
+class SplashScreen extends StatefulWidget {
+  @override
+  _SplashScreenState createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+
+    // Wait 2 seconds, then navigate to home
+    Timer(Duration(seconds: 2), () {
+      Navigator.pushReplacementNamed(context, '/home'); // or use pushReplacement
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      title: 'RetroTag',
-      debugShowCheckedModeBanner: false,
-      defaultTransition: Transition.cupertino,
-      theme: ThemeData.from(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
-        useMaterial3: true,
-      ),
-      home: const LoginScreen(),
-      scrollBehavior: const CupertinoScrollBehavior().copyWith(
-        physics: const BouncingScrollPhysics(
-          parent: AlwaysScrollableScrollPhysics(),
-        ),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Center(
+        child: Image.asset('assets/branding/resto_tag.png'),
       ),
     );
   }

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-import '../../../utils/AppColors.dart';
 // import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 
@@ -35,13 +33,16 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
             // Top bar with title and close button
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              child: Center(
-                child: const Text(
-                  "Scan QR Code for Dine-In",
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: AppColors.primary,
-                    fontWeight: FontWeight.w500,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    "Scan QR Code for Dine-In",
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.blueGrey,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
               ),

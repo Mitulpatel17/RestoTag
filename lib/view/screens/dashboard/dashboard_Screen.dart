@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:restotag_customer_app/view/screens/dashboard/orderSummary_Screen.dart';
+import 'package:restotag_customer_app/view/screens/dashboard/restaurant_Screen.dart';
 import 'package:restotag_customer_app/view/screens/dashboard/scanBarcode_Screen.dart';
 import 'package:restotag_customer_app/view/screens/dashboard/setting_Screen.dart';
 
 import '../../../utils/customUI/FoodCategorySwitch.dart';
 import 'FavouriteScreen.dart';
+
+import '../../controller/DashboardController.dart';
 
 
 class DashboardScreen extends StatefulWidget {
@@ -16,7 +20,7 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   int _selectedIndex = 0;
-  bool isBookingRestaurant = false;
+  final DashboardController controller = Get.put(DashboardController());
 
   final List<Widget> _pages = [
     Placeholder(), // Home will be replaced manually
@@ -24,40 +28,36 @@ class _DashboardScreenState extends State<DashboardScreen> {
     QRScannerScreen(),
     OrderSummaryApp(),
     SettingsApp(),
+    const HomeScreen(),
+    const FavoriteScreen(),
+    const QRScannerScreen(),
+    OrderSummaryPage(),
+    const SettingsPage(),
   ];
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
-      isBookingRestaurant = false; // Reset when switching tabs
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Obx(() =>  Scaffold(
+      backgroundColor: Colors.black,
       body: IndexedStack(
         index: _selectedIndex,
-        children: [
-          // Special case for Home
-          isBookingRestaurant ? RestaurantListScreen() : HomeScreen(onBookRestaurant: () {
-            setState(() {
-              isBookingRestaurant = true;
-            });
-          }),
-          ..._pages.sublist(1), // For other tabs
-        ],
+        children: _pages,
       ),
       bottomNavigationBar: _buildBottomNavigationBar(),
-    );
+    ));
   }
 
   Widget _buildBottomNavigationBar() {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10),
       decoration: BoxDecoration(
-        color: Colors.blueGrey.shade50,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+        color: Colors.white,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -74,26 +74,26 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Widget _buildNavItem(IconData icon, int index) {
     bool isSelected = _selectedIndex == index;
-    return IconButton(
-      icon: Icon(
-        icon,
-        color: isSelected ? Colors.orange : Colors.grey,
-      ),
-      onPressed: () => _onItemTapped(index),
-    );
+    return Obx(() {
+      final isSelected = controller.selectedIndex.value == index;
+      return IconButton(
+        icon: Icon(icon, color: isSelected ? Colors.orange : Colors.grey),
+        onPressed: () => controller.updateSelectedIndex(index),
+      );
+    });
+
   }
 }
 
-// =================== Home Screen (Choose Preference) ===================
+// =================== Home Screen ===================
 class HomeScreen extends StatelessWidget {
-  final VoidCallback onBookRestaurant;
-
-  const HomeScreen({required this.onBookRestaurant});
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Padding(
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -116,19 +116,26 @@ class HomeScreen extends StatelessWidget {
                   OrangeButton(
                     text: "BOOK RESTAURANT",
                     onPressed: () {
-                      onBookRestaurant();
+                      final dashboardState = context.findAncestorStateOfType<_DashboardScreenState>();
+                      if (dashboardState != null) {
+                        dashboardState.setState(() {
+                          dashboardState._pages[0] = const restaurantScreen(); // Replace HomeScreen with restaurantScreen
+                          dashboardState._selectedIndex = 0; // Navigate to index 0
+                        });
+                      }
                     },
                   ),
                   const SizedBox(height: 20),
                   OrangeButton(
                     text: "BOOK HOTEL",
                     onPressed: () {
-                      // Handle book hotel click if needed
+                      // Handle book hotel click
                     },
                   ),
                 ],
               ),
             ),
+            const SizedBox(height: 100), // Ensure space for bottom bar
           ],
         ),
       ),
@@ -139,37 +146,35 @@ class HomeScreen extends StatelessWidget {
 class OrangeButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
-  const OrangeButton({required this.text, required this.onPressed});
+  const OrangeButton({super.key, required this.text, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
+    return ElevatedButton.icon(
       onPressed: onPressed,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.orange,
-        padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 16),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30),
+      icon: const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.white),
+      label: Text(
+        text,
+        style: const TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
         ),
       ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.white),
-          const SizedBox(width: 8),
-          Text(
-            text,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
-        ],
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.orange,
+        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(40),
+        ),
       ),
     );
   }
 }
+
+// =================== Restaurant List ===================
+class RestaurantListScreen extends StatelessWidget {
+  const RestaurantListScreen({super.key});
 
 // =================== Restaurant List Screen (After Book Restaurant click) ===================
 class RestaurantListScreen extends StatefulWidget {
@@ -264,15 +269,7 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
 
 
 class RestaurantCard extends StatelessWidget {
-  final String name;
-  final String area;
-  final String imageUrl;
-
-  const RestaurantCard({
-    required this.name,
-    required this.area,
-    required this.imageUrl,
-  });
+  const RestaurantCard({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -284,15 +281,15 @@ class RestaurantCard extends StatelessWidget {
           ClipRRect(
             borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
             child: Image.network(
-              imageUrl,
+              "https://images.unsplash.com/photo-1555992336-03a23c7b20e3",
               height: 180,
               width: double.infinity,
               fit: BoxFit.cover,
             ),
           ),
           ListTile(
-            title: Text(name),
-            subtitle: Text(area),
+            title: const Text("ABC Restaurant"),
+            subtitle: const Text("XYZ, Area"),
             trailing: IconButton(
               icon: const Icon(Icons.favorite_border, color: Colors.orange),
               onPressed: () {},
@@ -304,32 +301,15 @@ class RestaurantCard extends StatelessWidget {
   }
 }
 
-
-// =================== Other Placeholder Screens ===================
+// =================== Placeholder Screens ===================
 class FavoriteScreen extends StatelessWidget {
+  const FavoriteScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return const Center(
-      child: Text('Favorite Screen', style: TextStyle(fontSize: 24)),
+      child: Text('Favorite Screen', style: TextStyle(fontSize: 24, color: Colors.white)),
     );
   }
 }
 
-
-class CartScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Cart Screen', style: TextStyle(fontSize: 24)),
-    );
-  }
-}
-
-class SettingsScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Settings Screen', style: TextStyle(fontSize: 24)),
-    );
-  }
-}
